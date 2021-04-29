@@ -1,0 +1,26 @@
+{
+  "name": "chisw_express",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Me",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mainsed/express.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Mainsed/express/issues"
+  },
+  "homepage": "https://github.com/Mainsed/express#readme",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "uniqid": "^5.3.0"
+  }
+}
