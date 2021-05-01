@@ -14,7 +14,6 @@ function UserController() {
         },
         findOne: async function (req, res) {
             const id = req.params.id;
-            if (!id) throw new Error('No id contained');
             const data = await service.findOne(id)
                 .catch((e) => {console.log(e)})
             res.json({

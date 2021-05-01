@@ -14,7 +14,6 @@ function UserService() {
             return model.create(name);
         },
         update: async function (id, updateData) {
-            if(!id) throw new Error('No id contained');
             const user = await this.findOne(id);
             if(!user) throw new Error("User doesn't exist");
             return model.update(id, updateData);
