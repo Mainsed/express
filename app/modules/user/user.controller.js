@@ -24,7 +24,8 @@ function UserController() {
             });
         },
         create: async function (req, res) {
-            const data = await service.create(name)
+            const {name, email} = req.body
+            const data = await service.create(name, email)
                 .catch((e) => {console.log(e)})
             res.json({
                 data,
@@ -34,7 +35,7 @@ function UserController() {
         },
         update: async function (req, res) {
             const id = req.params.id
-            const updateData = req.body.updateData;
+            const updateData = req.body;
             const data = await service.update(id, updateData)
                 .catch((e) => {console.log(e)})
             res.json({
@@ -49,8 +50,8 @@ function UserController() {
                 .catch((e) => {console.log(e)})
             res.json({
                 data,
-                statusCode: data ? 200 : 404,
-                statusMessage: data ? http.STATUS_CODES['200'] : http.STATUS_CODES['404']
+                statusCode: 200,
+                statusMessage: http.STATUS_CODES['200']
             })
         }
     }

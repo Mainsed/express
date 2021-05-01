@@ -2,7 +2,7 @@ import model from './user.model'
 
 function UserService() {
     return {
-        findAll: async function () {
+        findAll: function () {
             return model.findAll();
         },
         findOne: async function (id) {
@@ -10,7 +10,7 @@ function UserService() {
             if(!user) throw new Error("User doesn't exist");
             return user;
         },
-        create: async function (name) {
+        create: function (name) {
             return model.create(name);
         },
         update: async function (id, updateData) {
@@ -19,7 +19,7 @@ function UserService() {
             if(!user) throw new Error("User doesn't exist");
             return model.update(id, updateData);
         },
-        delete: async function (id) {
+        delete: function (id) {
             return model.delete(id);
         }
     }

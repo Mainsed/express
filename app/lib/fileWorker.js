@@ -37,9 +37,9 @@ export class fileWorker {
         if (!isExist) return null;
         return this.getAll(this.entityName).then((arr) => {
             const newArr = arr.filter(entry => entry.id !== id);
-            return fs.writeFile(`${PATH}/${this.entityName}.json`, JSON.stringify(newArr))
+            fs.writeFile(`${PATH}/${this.entityName}.json`, JSON.stringify(newArr))
                 .catch(console.log)
-                .then(() => newArr);
+            return id;
         })
     }
 

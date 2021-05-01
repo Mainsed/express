@@ -4,19 +4,19 @@ function UserModel() {
     //const Users = new Users();//cannot access "Users" before initialization
     const Users = new fileWorker('Users');
     return {
-        findAll: async () => {
-            return await Users.getAll()
+        findAll: () => {
+            return Users.getAll()
         },
-        findOne: async (id) => {
+        findOne: (id) => {
             return Users.get(id)
         },
-        create: async (name) => {
+        create: (name) => {
             return Users.createEntity({id: uniqid(), name})
         },
-        update: async (id, updateData) => {
+        update: (id, updateData) => {
             return Users.updateEntity(id, updateData)
         },
-        delete: async (id) => {
+        delete: (id) => {
             return Users.deleteEntity(id)
         }
     }
