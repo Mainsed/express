@@ -1,6 +1,6 @@
-import model from './user.model'
+import model from './post.model'
 
-function UserService() {
+function PostService() {
     return {
         findAll: async function () {
             await model.createTableIfDoesntExist();
@@ -8,18 +8,18 @@ function UserService() {
         },
         findOne: async function (id) {
             await model.createTableIfDoesntExist();
-            const user = await model.findOne(id);
-            if(!user) throw new Error("User doesn't exist");
-            return user;
+            const post = await model.findOne(id);
+            if(!post) throw new Error("Post doesn't exist");
+            return post;
         },
-        create: async function (name, email) {
+        create: async function (text, creator) {
             await model.createTableIfDoesntExist();
-            return model.create(name, email);
+            return model.create(text, creator);
         },
         update: async function (id, updateData) {
             await model.createTableIfDoesntExist();
-            const user = await this.findOne(id);
-            if(!user) throw new Error("User doesn't exist");
+            const post = await this.findOne(id);
+            if(!post) throw new Error("Post doesn't exist");
             return model.update(id, updateData);
         },
         delete: async function (id) {
@@ -29,4 +29,4 @@ function UserService() {
     }
 }
 
-export default new UserService();
+export default new PostService();

@@ -1,7 +1,7 @@
-import service from './user.service'
+import service from './follow.service'
 import http from 'http'
 
-function UserController() {
+function FollowController() {
     return {
         findAll: async function (req, res) {
             const data = await service.findAll()
@@ -11,9 +11,9 @@ function UserController() {
                 statusMessage: data ? http.STATUS_CODES['200'] : http.STATUS_CODES['404']
             });
         },
-        findOne: async function (req, res) {
+        findById: async function (req, res) {
             const id = req.params.id;
-            const data = await service.findOne(id)
+            const data = await service.findById(id)
             res.json({
                 data,
                 statusCode: data ? 200 : 404,
@@ -21,18 +21,17 @@ function UserController() {
             });
         },
         create: async function (req, res) {
-            const {name, email} = req.body
-            const data = await service.create(name, email)
+            const {id, targetId} = req.body
+            const data = await service.create(id, targetId)
             res.json({
                 data,
                 statusCode: data ? 201 : 400,
                 statusMessage: data ? http.STATUS_CODES['201'] : http.STATUS_CODES['400']
             })
         },
-        update: async function (req, res) {
-            const id = req.params.id
-            const updateData = req.body;
-            const data = await service.update(id, updateData)
+        setStatus: async function (req, res) {
+            const {status, id, targetId} = req.body;
+            const data = await service.setStatus(id, targetId, status)
             res.json({
                 data,
                 statusCode: data ? 200 : 404,
@@ -40,8 +39,8 @@ function UserController() {
             })
         },
         delete: async function (req, res) {
-            const id = req.params.id
-            const data = await service.delete(id)
+            const {id, targetId} = req.params
+            const data = await service.delete(id, targetId)
             res.json({
                 data,
                 statusCode: 200,
@@ -51,4 +50,4 @@ function UserController() {
     }
 }
 
-export default new UserController;
+export default new FollowController();

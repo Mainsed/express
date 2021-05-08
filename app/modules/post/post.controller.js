@@ -1,7 +1,7 @@
-import service from './user.service'
+import service from './post.service'
 import http from 'http'
 
-function UserController() {
+function PostController() {
     return {
         findAll: async function (req, res) {
             const data = await service.findAll()
@@ -21,8 +21,8 @@ function UserController() {
             });
         },
         create: async function (req, res) {
-            const {name, email} = req.body
-            const data = await service.create(name, email)
+            const {text, creator} = req.body
+            const data = await service.create(text, creator)
             res.json({
                 data,
                 statusCode: data ? 201 : 400,
@@ -51,4 +51,4 @@ function UserController() {
     }
 }
 
-export default new UserController;
+export default new PostController;

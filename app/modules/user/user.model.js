@@ -1,24 +1,38 @@
-import {fileWorker} from '../../lib/fileWorker'
-import uniqid from 'uniqid'
-function UserModel() {
-    //const Users = new Users();//cannot access "Users" before initialization
-    const Users = new fileWorker('Users');
+import Sequelize from 'sequelize'
+import {User} from '../../config/dbModels'
+
+const sequelize = new Sequelize("chisw_homework", "root", "balu2000", {
+    dialect: "mysql",
+    host: "localhost"
+});
+
+function UserModel () {
+    const dbWorker = sequelize.sync();
     return {
+        createTableIfDoesntExist: async () => {
+            await User.sync();
+            return this;
+        },
         findAll: () => {
-            return Users.getAll()
+            return dbWorker.then(() => User.findAll())
         },
         findOne: (id) => {
-            return Users.get(id)
+            return dbWorker.then(() => User.findOne({where: {id}}))
         },
-        create: (name) => {
-            return Users.createEntity({id: uniqid(), name})
+        create: (name, email) => {
+            return dbWorker.then(() => User.create({
+                name,
+                email
+            }))
         },
-        update: (id, updateData) => {
-            return Users.updateEntity(id, updateData)
+        update: async (id, updateData) => {
+            return dbWorker.then(() => User.findOne({where: {id}}))
+                .then((user)=>user.update(updateData))
         },
         delete: (id) => {
-            return Users.deleteEntity(id)
+            return dbWorker.then(() => User.destroy({where: {id}}))//working
         }
     }
 }
+
 export default new UserModel();
