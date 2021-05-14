@@ -1,36 +1,25 @@
-import Sequelize from 'sequelize'
-import {Post} from '../../config/dbModels'
+import Post from '../../models/post'
 
-const sequelize = new Sequelize("chisw_homework", "root", "balu2000", {
-    dialect: "mysql",
-    host: "localhost"
-});
-
-function PostModel () {
-    const dbWorker = sequelize.sync();
+function PostModel() {
     return {
-        createTableIfDoesntExist: async () => {
-            await Post.sync();
-            return this;
-        },
         findAll: () => {
-            return dbWorker.then(() => Post.findAll())
+            return Post.findAll()
         },
         findOne: (id) => {
-            return dbWorker.then(() => Post.findOne({where: {id}}))
+            return Post.findOne({where: {id}})
         },
-        create: (text, creator_id) => {
-            return dbWorker.then(() => Post.create({
+        create: (text, creator) => {
+            return Post.create({
                 text,
-                creator_id
-            }))
+                creator
+            })
         },
         update: async (id, updateData) => {
-            return dbWorker.then(() => Post.findOne({where: {id}}))
-                .then((post)=>post.update(updateData))
+            return Post.findOne({where: {id}})
+                .then((post) => post.update(updateData))
         },
         delete: (id) => {
-            return dbWorker.then(() => Post.destroy({where: {id}}))//working
+            return Post.destroy({where: {id}})
         }
     }
 }

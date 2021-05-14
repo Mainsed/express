@@ -1,37 +1,26 @@
-import Sequelize from 'sequelize'
-import {User} from '../../config/dbModels'
+import User from '../../models/user'
 
-const sequelize = new Sequelize("chisw_homework", "root", "balu2000", {
-    dialect: "mysql",
-    host: "localhost"
-});
-
-function UserModel () {
-    const dbWorker = sequelize.sync();
+function UserModel() {
     return {
-        createTableIfDoesntExist: async () => {
-            await User.sync();
-            return this;
-        },
         findAll: () => {
-            return dbWorker.then(() => User.findAll())
+            return User.findAll()
         },
         findOne: (id) => {
-            return dbWorker.then(() => User.findOne({where: {id}}))
+            return User.findOne({where: {id}})
         },
         create: (name, email) => {
-            return dbWorker.then(() => User.create({
+            return User.create({
                 name,
                 email
-            }))
+            })
         },
         update: async (id, updateData) => {
-            return dbWorker.then(() => User.findOne({where: {id}}))
-                .then((user)=>user.update(updateData))
+            return User.findOne({where: {id}})
+                .then((user) => user.update(updateData))
         },
         delete: (id) => {
-            return dbWorker.then(() => User.destroy({where: {id}}))//working
-        }
+            return User.destroy({where: {id}})
+        },
     }
 }
 
