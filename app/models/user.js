@@ -23,5 +23,4 @@ User.associate = function(models) {
     User.belongsToMany(models.follows, {through: 'user_follows', foreignKey: 'user_id'})
 };
 
-
 export default User

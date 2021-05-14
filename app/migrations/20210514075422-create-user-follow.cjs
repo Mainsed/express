@@ -10,14 +10,14 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.UUID,
-        reference: {
+        references: {
           model: 'users',
           key: 'id'
-        }
+        },
       },
       follow_id: {
         type: Sequelize.INTEGER,
-        reference: {
+        references: {
           model: 'follows',
           key: 'id'
         }

@@ -37,6 +37,6 @@ app.listen(3000, () => console.log('Server has been started...'))
 
 //axios.get('http://localhost:3000/follow').then((res)=>console.log(res.data));
 //axios.get('http://localhost:3000/follow/1hr1r16oko5ts5cf').then((res)=>console.log(res.data));
-//axios.put('http://localhost:3000/follow', {id:'2fdb935b-4dbe-b23f-783509f62384',targetId: '7a226945-421a-4392-b70f-ebe9166c0311'}).catch((e) => {}).then((res)=>{console.log(res.data)})
+axios.put('http://localhost:3000/follow', {id:'2fdb935b-2aae-4dbe-b23f-783509f62384',targetId: '7a226945-421a-4392-b70f-ebe9166c0311'}).catch((e) => {}).then((res)=>{console.log(res.data)})
 //axios.delete('http://localhost:3000/follow/1hr1r16oko5ts5cf/1hr1r16oko2ts5cf');
 //axios.patch('http://localhost:3000/follow', {status:'accepted', id:'1hr1r16oko5ts5cf', targetId:'1hr1r16oko2ts5cf'})//.then((res)=>console.log(res.data))
