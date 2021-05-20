@@ -10,12 +10,18 @@ const User =  sequelize.define('users', {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
+        require: true
     },
     name: Sequelize.STRING,
     email: {
         type: Sequelize.STRING,
-        validate: {isEmail: true}
+        validate: {isEmail: true},
+        require: true
     },
+    password: {
+        type: Sequelize.STRING,
+        require: true
+    }
 });
 
 User.associate = function(models) {

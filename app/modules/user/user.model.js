@@ -5,13 +5,15 @@ function UserModel() {
         findAll: () => {
             return User.findAll()
         },
-        findOne: (id) => {
-            return User.findOne({where: {id}})
+        findOne: (params) => {
+            console.log('params', params)
+            return User.findOne({where: {...params}})
         },
-        create: (name, email) => {
+        create: (name, email, password) => {
             return User.create({
                 name,
-                email
+                email,
+                password
             })
         },
         update: async (id, updateData) => {

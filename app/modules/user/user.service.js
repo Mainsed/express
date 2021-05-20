@@ -6,7 +6,7 @@ function UserService() {
             return model.findAll();
         },
         findOne: async function (id) {
-            const user = await model.findOne(id);
+            const user = await model.findOne({id});
             if (!user) throw new Error("User doesn't exist");
             return user;
         },

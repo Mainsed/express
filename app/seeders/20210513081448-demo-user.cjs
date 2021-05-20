@@ -5,6 +5,7 @@ module.exports = {
       id: uniqid(),
       name: 'Jogn Joun',
       email: 'example@example.com',
+      password: 'pass',
       createdAt: new Date(),
       updatedAt: new Date()
     }]);
