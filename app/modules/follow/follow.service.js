@@ -11,6 +11,10 @@ function FollowService() {
         create: async function (id, targetId) {
             const follow = await model.create(id, targetId);
             await model.createUserFollow(follow.dataValues.user_id, follow.dataValues.id)
+                .catch((e)=>{
+                    model.delete(id, targetId)
+                    throw e
+                })
             return follow;
         },
         setStatus: async function (id, targetId, status) {

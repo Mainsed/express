@@ -26,8 +26,12 @@ function FollowModel() {
             return Follow.findOne({where: {user_id, target_id}})
                 .then((follow) => follow.update({status}))
         },
-        delete: (user_id, target_id) => {
-            return Follow.destroy({where: {user_id, target_id}})
+        delete: async (user_id, target_id) => {
+            const follow = await Follow.findOne({where: {user_id, target_id}})
+            await userFollow.destroy({
+                where: {user_id, follow_id: follow.dataValues.id}
+            })
+            return Follow.destroy({where: {user_id, target_id}});
         }
     }
 }

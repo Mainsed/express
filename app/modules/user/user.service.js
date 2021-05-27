@@ -10,8 +10,8 @@ function UserService() {
             if (!user) throw new Error("User doesn't exist");
             return user;
         },
-        create: async function (name, email) {
-            return model.create(name, email);
+        create: async function (name, email, password) {
+            return model.create(name, email, password);
         },
         update: async function (id, updateData) {
             const user = await this.findOne(id);

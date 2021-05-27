@@ -1,4 +1,5 @@
 import User from '../../models/user'
+import postModel from '../post/post.model'
 
 function UserModel() {
     return {
@@ -6,7 +7,6 @@ function UserModel() {
             return User.findAll()
         },
         findOne: (params) => {
-            console.log('params', params)
             return User.findOne({where: {...params}})
         },
         create: (name, email, password) => {
@@ -16,11 +16,12 @@ function UserModel() {
                 password
             })
         },
-        update: async (id, updateData) => {
+        update: (id, updateData) => {
             return User.findOne({where: {id}})
                 .then((user) => user.update(updateData))
         },
-        delete: (id) => {
+        delete: async(id) => {
+            await postModel.deleteAllPostByUser(id);
             return User.destroy({where: {id}})
         },
     }

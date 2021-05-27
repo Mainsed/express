@@ -5,6 +5,31 @@ import {refreshSchema} from "../modules/auth/auth.schemas";
 import userModel from "../modules/user/user.model";
 import jwt from "jsonwebtoken";
 
+const newAuth = async (user) => {
+    let auth = await refreshSchema.findOne({userId: user.id})
+    if (!auth) {
+        auth = new refreshSchema({
+            refresh_token: jwt.sign(
+                {user: {id: user.id, email: user.email, name: user.name}},
+                'TOP_SECRET'
+            ),
+            access_token: jwt.sign({id: user.id}, 'TOP_SECRET'),
+            expires: Date.now() + 3600000,
+            userId: user.id
+        })
+        await auth.save();
+    } else {
+        auth.refresh_token = jwt.sign(
+            {user: {id: user.id, email: user.email, name: user.name}},
+            'TOP_SECRET'
+        )
+        auth.access_token = jwt.sign({id: user.id}, 'TOP_SECRET')
+        auth.expires = Date.now() + 3600000
+        await auth.save();
+    }
+    return {access: auth.access_token, refresh: auth.refresh_token}
+}
+
 passport.use(
     'access',
     new JWTstrategy(
@@ -41,16 +66,8 @@ passport.use(
                 const user = await userModel.findOne({id: token.user.id})
 
                 if (!auth) {
-                    const newAuth = new refreshSchema({
-                        refresh_token: jwt.sign(
-                            {user: {id: user.id, email: user.email, name: user.name}},
-                            'TOP_SECRET'),
-                        access_token: jwt.sign({id: user.id}, 'TOP_SECRET'),
-                        expires: Date.now() + 3600000,
-                        userId: req.body.id
-                    })
-                    await newAuth.save();
-                    return done(null, {refresh: newAuth.refresh_token, access: newAuth.access_token})
+                    const userAuth = await newAuth(user);
+                    return done(null, userAuth)
                 } else if (req.query.refresh_token !== auth.refresh_token)
                     return done(null, false, {message: 'Invalid refresh token'})
 
@@ -77,7 +94,8 @@ passport.use('login',
             const user = await userModel.findOne({email});
             if (!user) done(null, false, {message: 'Incorrect email'})
             else if (user.password !== password) done(null, false, {message: 'Incorrect password'})
-            done(null, user.dataValues)
+            const userAuth = await newAuth(user);
+            done(null, {user: user.dataValues, userAuth})
         }
     )
 );

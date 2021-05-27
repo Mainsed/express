@@ -14,13 +14,16 @@ function PostModel() {
                 creator
             })
         },
-        update: async (id, updateData) => {
+        update: (id, updateData) => {
             return Post.findOne({where: {id}})
                 .then((post) => post.update(updateData))
         },
         delete: (id) => {
             return Post.destroy({where: {id}})
-        }
+        },
+        deleteAllPostByUser: (creator) => {
+            return Post.destroy({where: {creator}})
+        },
     }
 }
 
